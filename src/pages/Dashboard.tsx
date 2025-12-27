@@ -11,6 +11,7 @@ import IncidentDetailPanel from '@/components/dashboard/IncidentDetailPanel';
 import ActivityLogPanel from '@/components/dashboard/ActivityLogPanel';
 import BulkActionsBar from '@/components/dashboard/BulkActionsBar';
 import PerformanceIndicator from '@/components/dashboard/PerformanceIndicator';
+import IncidentMap from '@/components/dashboard/IncidentMap';
 import { IncidentType, IncidentStatus, IncidentSeverity } from '@/types/emergency';
 
 const Dashboard: React.FC = () => {
@@ -132,6 +133,15 @@ const Dashboard: React.FC = () => {
               timeFilter={timeFilter}
               onTimeChange={setTimeFilter}
             />
+
+            {/* Map */}
+            <div className="mb-6">
+              <IncidentMap
+                incidents={filteredIncidents}
+                selectedIncident={selectedIncident}
+                onSelectIncident={setSelectedIncident}
+              />
+            </div>
 
             {/* Incident Table */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
