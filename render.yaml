@@ -44,34 +44,30 @@ services:
         fromService:
           type: web
           name: ai-service
-          property: url
+          property: hostport
 
   # ----------------------------------------
   # Admin Frontend (Static Site)
   # ----------------------------------------
-  - type: static
+  - type: web
     name: admin-frontend
     rootDir: apps/admin
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: admin-backend
-          property: url
+        value: https://admin-backend-placeholder.onrender.com/api # UPDATE THIS IN RENDER DASHBOARD
+        sync: false
 
   # ----------------------------------------
   # Citizen Frontend (Static Site)
   # ----------------------------------------
-  - type: static
+  - type: web
     name: citizen-frontend
     rootDir: apps/citizen
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: citizen-backend
-          property: url
+        value: https://citizen-backend-placeholder.onrender.com/api # UPDATE THIS IN RENDER DASHBOARD
+        sync: false
