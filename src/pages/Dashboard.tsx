@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEmergency } from '@/contexts/EmergencyContext';
@@ -27,6 +27,13 @@ const Dashboard: React.FC = () => {
 
   // Selection state
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  
+  // Banner height state
+  const [bannerHeight, setBannerHeight] = useState(0);
+
+  const handleBannerHeightChange = useCallback((height: number) => {
+    setBannerHeight(height);
+  }, []);
 
   // Check authentication
   if (!isAuthenticated) {
@@ -37,12 +44,6 @@ const Dashboard: React.FC = () => {
   if (!hasRole(['ADMIN', 'RESPONDER'])) {
     return <Navigate to="/" replace />;
   }
-
-  // Calculate critical banner height offset
-  const criticalIncidents = incidents.filter(
-    inc => inc.severity === 'CRITICAL' && inc.status !== 'RESOLVED' && inc.status !== 'FALSE'
-  );
-  const bannerOffset = Math.min(criticalIncidents.length, 2) * 52;
 
   // Filter incidents
   const filteredIncidents = useMemo(() => {
@@ -95,13 +96,17 @@ const Dashboard: React.FC = () => {
   }, [incidents, searchQuery, typeFilter, statusFilter, severityFilter, timeFilter]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-muted/30">
       <TopNavbar />
-      <CriticalAlertBanner />
+      
+      {/* Critical Alert Banner - positioned below navbar */}
+      <div className="fixed top-16 left-0 right-0 z-40 bg-background">
+        <CriticalAlertBanner onHeightChange={handleBannerHeightChange} />
+      </div>
 
       <main 
-        className="pt-16 transition-all duration-300"
-        style={{ paddingTop: `${64 + bannerOffset}px` }}
+        className="transition-all duration-300 pb-16"
+        style={{ paddingTop: `${64 + bannerHeight}px` }}
       >
         <div className="flex">
           {/* Main Content */}
@@ -144,8 +149,8 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Incident Table */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
+            <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+              <div className="xl:col-span-3">
                 <IncidentTable
                   incidents={filteredIncidents}
                   selectedIds={selectedIds}
@@ -156,7 +161,7 @@ const Dashboard: React.FC = () => {
               </div>
 
               {/* Activity Log */}
-              <div className="lg:col-span-1">
+              <div className="xl:col-span-1">
                 <ActivityLogPanel />
               </div>
             </div>
@@ -179,7 +184,7 @@ const Dashboard: React.FC = () => {
       />
 
       {/* Footer */}
-      <footer className="fixed bottom-0 left-0 right-0 px-6 py-3 bg-card/80 backdrop-blur border-t border-border text-xs text-muted-foreground flex items-center justify-between z-30">
+      <footer className="fixed bottom-0 left-0 right-0 px-6 py-3 bg-card/95 backdrop-blur border-t border-border text-xs text-muted-foreground flex items-center justify-between z-30">
         <div className="flex items-center gap-4">
           <span>Emergency Response System v2.0</span>
           <span>•</span>

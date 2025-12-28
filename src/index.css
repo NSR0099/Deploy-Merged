@@ -2,78 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Dark tactical theme for emergency operations */
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
+    /* Light blue/white professional theme */
+    --background: 0 0% 100%;
+    --foreground: 220 14% 15%;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 14% 15%;
 
-    --popover: 222 47% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 14% 15%;
 
-    --primary: 199 89% 48%;
-    --primary-foreground: 222 47% 6%;
+    --primary: 221 83% 48%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217 33% 14%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 217 33% 20%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 214 95% 93%;
+    --accent-foreground: 221 83% 48%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 199 89% 48%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 48%;
 
     --radius: 0.5rem;
 
     /* Emergency Severity Colors */
-    --severity-critical: 0 84% 60%;
+    --severity-critical: 0 72% 51%;
     --severity-high: 25 95% 53%;
     --severity-medium: 45 93% 47%;
     --severity-low: 142 71% 45%;
     
     /* Status Colors */
     --status-online: 142 71% 45%;
-    --status-offline: 0 84% 60%;
+    --status-offline: 0 72% 51%;
     --status-warning: 45 93% 47%;
     
     /* Incident Type Colors */
-    --incident-fire: 0 84% 60%;
+    --incident-fire: 0 72% 51%;
     --incident-medical: 199 89% 48%;
     --incident-police: 262 83% 58%;
     --incident-accident: 25 95% 53%;
     --incident-infrastructure: 45 93% 47%;
 
+    /* Additional colors from theme */
+    --light-blue: 214 95% 93%;
+    --dark-gray: 220 14% 15%;
+    --medium-gray: 218 11% 35%;
+    --light-gray: 220 14% 96%;
+
     /* Gradients */
-    --gradient-critical: linear-gradient(135deg, hsl(0 84% 60% / 0.2), hsl(0 84% 40% / 0.1));
-    --gradient-card: linear-gradient(180deg, hsl(222 47% 10%), hsl(222 47% 7%));
-    --gradient-glow: radial-gradient(ellipse at center, hsl(199 89% 48% / 0.15), transparent 70%);
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 48%), hsl(217 91% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(0 72% 51%), hsl(25 95% 53%));
+    --gradient-hero: linear-gradient(135deg, hsl(200 100% 97%) 0%, hsl(200 100% 94%) 100%);
 
     /* Shadows */
-    --shadow-card: 0 4px 24px -4px hsl(222 47% 4% / 0.6);
-    --shadow-glow: 0 0 40px hsl(199 89% 48% / 0.2);
-    --shadow-critical: 0 0 30px hsl(0 84% 60% / 0.4);
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
+    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+    --shadow-glow: 0 0 40px hsl(221 83% 48% / 0.2);
 
     /* Sidebar */
-    --sidebar-background: 222 47% 7%;
-    --sidebar-foreground: 210 40% 90%;
-    --sidebar-primary: 199 89% 48%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 217 33% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 33% 15%;
-    --sidebar-ring: 199 89% 48%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 14% 15%;
+    --sidebar-primary: 221 83% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 95% 93%;
+    --sidebar-accent-foreground: 221 83% 48%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 221 83% 48%;
   }
 
   .dark {
@@ -83,7 +91,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 10%;
     --popover-foreground: 210 40% 98%;
-    --primary: 199 89% 48%;
+    --primary: 217 91% 60%;
     --primary-foreground: 222 47% 6%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -113,12 +121,15 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
   }
 
-  .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+  h1, h2, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
   }
 }
 
@@ -175,7 +186,7 @@
 
   /* Glass Effect */
   .glass {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+    @apply bg-card/80 backdrop-blur-xl border border-border shadow-md;
   }
 
   /* Card Glow Effect */
@@ -186,7 +197,7 @@
   .card-glow::before {
     content: '';
     @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: var(--gradient-glow);
+    background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.1), transparent 70%);
   }
 
   .card-glow:hover::before {
@@ -214,11 +225,34 @@
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/50;
   }
+
+  /* Button styles */
+  .btn {
+    @apply inline-block px-8 py-3 rounded-md font-semibold text-base transition-all duration-300 cursor-pointer border-none;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground shadow-md;
+  }
+
+  .btn-primary:hover {
+    @apply bg-secondary -translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-primary border-2 border-primary;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-primary text-primary-foreground -translate-y-0.5;
+  }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--destructive)));
   }
 
   .animate-slide-in {
@@ -254,10 +288,10 @@
 
 @keyframes flash-critical {
   0%, 100% {
-    background-color: hsl(var(--severity-critical) / 0.15);
+    background-color: hsl(var(--severity-critical) / 0.1);
   }
   50% {
-    background-color: hsl(var(--severity-critical) / 0.3);
+    background-color: hsl(var(--severity-critical) / 0.2);
   }
 }
 

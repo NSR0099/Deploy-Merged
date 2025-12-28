@@ -4,9 +4,14 @@ import { Button } from '@/components/ui/button';
 import { useEmergency } from '@/contexts/EmergencyContext';
 import { cn } from '@/lib/utils';
 
-const CriticalAlertBanner: React.FC = () => {
+interface CriticalAlertBannerProps {
+  onHeightChange?: (height: number) => void;
+}
+
+const CriticalAlertBanner: React.FC<CriticalAlertBannerProps> = ({ onHeightChange }) => {
   const { incidents, setSelectedIncident } = useEmergency();
   const [dismissed, setDismissed] = React.useState<string[]>([]);
+  const bannerRef = React.useRef<HTMLDivElement>(null);
 
   const criticalIncidents = incidents.filter(
     inc => inc.severity === 'CRITICAL' && 
@@ -15,10 +20,24 @@ const CriticalAlertBanner: React.FC = () => {
            !dismissed.includes(inc.id)
   );
 
-  if (criticalIncidents.length === 0) return null;
+  React.useEffect(() => {
+    if (onHeightChange) {
+      const height = bannerRef.current?.offsetHeight || 0;
+      onHeightChange(height);
+    }
+  }, [criticalIncidents.length, onHeightChange]);
+
+  if (criticalIncidents.length === 0) {
+    React.useEffect(() => {
+      if (onHeightChange) {
+        onHeightChange(0);
+      }
+    }, [onHeightChange]);
+    return null;
+  }
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-40">
+    <div ref={bannerRef} className="w-full">
       {criticalIncidents.slice(0, 2).map((incident, index) => (
         <div
           key={incident.id}
