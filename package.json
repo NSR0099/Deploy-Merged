@@ -1,0 +1,21 @@
+{
+    "name": "unified-platform",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "apps/citizen/backend",
+        "apps/admin/backend"
+    ],
+    "scripts": {
+        "dev": "concurrently \"npm run dev:admin\" \"npm run dev:citizen\" \"npm run dev:ai\" \"npm run start:backend:citizen\" \"npm run start:backend:admin\"",
+        "dev:admin": "npm run dev -w admin",
+        "dev:citizen": "npm run dev -w citizen",
+        "dev:ai": "cd apps/ai-services && python app.py",
+        "start:backend:citizen": "npm start -w citizen-backend",
+        "start:backend:admin": "npm start -w admin-backend"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}

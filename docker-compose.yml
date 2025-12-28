@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # AI Microservice (Python/Flask)
+  ai-service:
+    build:
+      context: ./apps/ai-services
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  # Admin Backend (Node/Express)
+  admin-backend:
+    build:
+      context: ./apps/admin/backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=${MONGODB_URI:-mongodb+srv://SmartEmergency:innovex123@cluster0.p7wpdve.mongodb.net/SmartEmergency?retryWrites=true&w=majority&appName=Cluster0}
+    networks:
+      - app-network
+
+  # Citizen Backend (Node/Express)
+  citizen-backend:
+    build:
+      context: ./apps/citizen/backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=${MONGODB_URI:-mongodb+srv://SmartEmergency:innovex123@cluster0.p7wpdve.mongodb.net/SmartEmergency?retryWrites=true&w=majority&appName=Cluster0}
+      - JWT_SECRET=supersecretjwtkey123
+      - AI_SERVICE_URL=http://ai-service:8080
+    depends_on:
+      - ai-service
+    networks:
+      - app-network
+
+  # Admin Frontend (Vite/React)
+  admin-frontend:
+    build:
+      context: ./apps/admin
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3000/api
+    ports:
+      - "3001:80"
+    depends_on:
+      - admin-backend
+    networks:
+      - app-network
+
+  # Citizen Frontend (Vite/React)
+  citizen-frontend:
+    build:
+      context: ./apps/citizen
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:5000/api
+    ports:
+      - "3002:80"
+    depends_on:
+      - citizen-backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

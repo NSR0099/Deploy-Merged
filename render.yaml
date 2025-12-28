@@ -1,0 +1,77 @@
+services:
+  # ----------------------------------------
+  # AI Service (Python/Flask)
+  # ----------------------------------------
+  - type: web
+    name: ai-service
+    env: docker
+    rootDir: apps/ai-services
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8080
+
+  # ----------------------------------------
+  # Admin Backend (Node/Express)
+  # ----------------------------------------
+  - type: web
+    name: admin-backend
+    env: docker
+    rootDir: apps/admin/backend
+    plan: free
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false # User will need to input this in dashboard
+
+  # ----------------------------------------
+  # Citizen Backend (Node/Express)
+  # ----------------------------------------
+  - type: web
+    name: citizen-backend
+    env: docker
+    rootDir: apps/citizen/backend
+    plan: free
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AI_SERVICE_URL
+        fromService:
+          type: web
+          name: ai-service
+          property: url
+
+  # ----------------------------------------
+  # Admin Frontend (Static Site)
+  # ----------------------------------------
+  - type: static
+    name: admin-frontend
+    rootDir: apps/admin
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: admin-backend
+          property: url
+
+  # ----------------------------------------
+  # Citizen Frontend (Static Site)
+  # ----------------------------------------
+  - type: static
+    name: citizen-frontend
+    rootDir: apps/citizen
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: citizen-backend
+          property: url
