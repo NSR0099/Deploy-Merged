@@ -114,8 +114,8 @@ const IncidentTable: React.FC<IncidentTableProps> = ({
     <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
       {/* Table Header */}
       <div className="overflow-x-auto">
-        <div className="min-w-[900px]">
-          <div className="grid grid-cols-[40px_100px_1fr_100px_130px_90px_70px_140px] gap-3 px-4 py-3 bg-muted/50 border-b border-border text-xs font-medium text-muted-foreground uppercase tracking-wide">
+        <div className="min-w-[1000px]">
+          <div className="grid grid-cols-[40px_110px_1fr_110px_150px_90px_70px_160px] gap-4 px-4 py-3 bg-muted/50 border-b border-border text-xs font-medium text-muted-foreground uppercase tracking-wide">
             <div className="flex items-center justify-center">
               <Checkbox 
                 checked={selectedIds.length === incidents.length && incidents.length > 0}
@@ -137,7 +137,7 @@ const IncidentTable: React.FC<IncidentTableProps> = ({
               <div
                 key={incident.id}
                 className={cn(
-                  "grid grid-cols-[40px_100px_1fr_100px_130px_90px_70px_140px] gap-3 px-4 py-3 items-center hover:bg-accent/30 transition-colors",
+                  "grid grid-cols-[40px_110px_1fr_110px_150px_90px_70px_160px] gap-4 px-4 py-3 items-center hover:bg-accent/30 transition-colors",
                   incident.severity === 'CRITICAL' && incident.status !== 'RESOLVED' && "bg-severity-critical/5",
                   selectedIds.includes(incident.id) && "bg-primary/5"
                 )}
@@ -158,19 +158,21 @@ const IncidentTable: React.FC<IncidentTableProps> = ({
                 {/* Incident Info */}
                 <div className="flex items-center gap-3 min-w-0">
                   <div className={cn(
-                    "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
+                    "w-9 h-9 rounded-lg flex items-center justify-center shrink-0",
                     typeColors[incident.type],
                     "bg-current/10"
                   )}>
                     {typeIcons[incident.type]}
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="font-medium text-foreground truncate">{incident.title}</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <Badge variant={statusVariants[incident.status]} className="text-[10px] h-5">
+                    <div className="flex items-center gap-2 mt-1">
+                      <Badge variant={statusVariants[incident.status]} className="text-[10px] h-5 px-2">
                         {incident.status.replace('_', ' ')}
                       </Badge>
-                      <span className="text-xs text-muted-foreground capitalize">{incident.type.toLowerCase()}</span>
+                      <Badge variant="outline" className={cn("text-[10px] h-5 px-2", typeColors[incident.type])}>
+                        {incident.type}
+                      </Badge>
                     </div>
                   </div>
                 </div>

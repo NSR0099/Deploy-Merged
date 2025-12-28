@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { AlertTriangle, ArrowRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useEmergency } from '@/contexts/EmergencyContext';
@@ -10,8 +10,8 @@ interface CriticalAlertBannerProps {
 
 const CriticalAlertBanner: React.FC<CriticalAlertBannerProps> = ({ onHeightChange }) => {
   const { incidents, setSelectedIncident } = useEmergency();
-  const [dismissed, setDismissed] = React.useState<string[]>([]);
-  const bannerRef = React.useRef<HTMLDivElement>(null);
+  const [dismissed, setDismissed] = useState<string[]>([]);
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   const criticalIncidents = incidents.filter(
     inc => inc.severity === 'CRITICAL' && 
@@ -20,19 +20,20 @@ const CriticalAlertBanner: React.FC<CriticalAlertBannerProps> = ({ onHeightChang
            !dismissed.includes(inc.id)
   );
 
-  React.useEffect(() => {
-    if (onHeightChange) {
-      const height = bannerRef.current?.offsetHeight || 0;
-      onHeightChange(height);
-    }
-  }, [criticalIncidents.length, onHeightChange]);
+  const hasCriticalIncidents = criticalIncidents.length > 0;
 
-  if (criticalIncidents.length === 0) {
-    React.useEffect(() => {
-      if (onHeightChange) {
+  // Always call useEffect unconditionally - this fixes the hooks order error
+  useEffect(() => {
+    if (onHeightChange) {
+      if (hasCriticalIncidents && bannerRef.current) {
+        onHeightChange(bannerRef.current.offsetHeight);
+      } else {
         onHeightChange(0);
       }
-    }, [onHeightChange]);
+    }
+  }, [hasCriticalIncidents, criticalIncidents.length, onHeightChange]);
+
+  if (!hasCriticalIncidents) {
     return null;
   }
 
@@ -65,7 +66,7 @@ const CriticalAlertBanner: React.FC<CriticalAlertBannerProps> = ({ onHeightChang
           </div>
           <div className="flex items-center gap-2">
             <Button
-              variant="critical"
+              variant="destructive"
               size="sm"
               onClick={() => setSelectedIncident(incident)}
               className="gap-1"

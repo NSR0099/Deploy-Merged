@@ -104,7 +104,7 @@ const IncidentMap: React.FC<IncidentMapProps> = ({
   };
 
   return (
-    <Card className="bg-card border-border shadow-sm">
+    <Card className="bg-card border-border shadow-sm relative z-0">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <CardTitle className="text-lg flex items-center gap-2">
@@ -143,7 +143,7 @@ const IncidentMap: React.FC<IncidentMapProps> = ({
         </div>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="h-[400px] rounded-b-lg overflow-hidden">
+        <div className="h-[400px] rounded-b-lg overflow-hidden relative z-0">
           <MapContainer
             center={center}
             zoom={12}

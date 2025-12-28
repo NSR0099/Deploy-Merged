@@ -30,7 +30,10 @@ export const mockIncidents: Incident[] = [
     verifiedAt: new Date(Date.now() - 3 * 60 * 1000),
     verifiedBy: 'admin-001',
     assignedDepartment: 'FIRE_DEPARTMENT',
-    media: ['/placeholder.svg'],
+    media: [
+      'https://images.unsplash.com/photo-1486551937199-baf066858de7?w=400',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
+    ],
     priority: 100,
   },
   {
@@ -100,7 +103,9 @@ export const mockIncidents: Incident[] = [
     verifiedAt: new Date(Date.now() - 30 * 60 * 1000),
     verifiedBy: 'admin-001',
     assignedDepartment: 'FIRE_DEPARTMENT',
-    media: ['/placeholder.svg'],
+    media: [
+      'https://images.unsplash.com/photo-1504567961542-e24d9439a724?w=400',
+    ],
     priority: 60,
   },
   {
