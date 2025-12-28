@@ -240,13 +240,15 @@ const IncidentDetailPanel: React.FC<IncidentDetailPanelProps> = ({ incident, onC
             </TabsContent>
 
             <TabsContent value="location" className="p-4 mt-0">
-              {/* Map Placeholder */}
-              <div className="aspect-video rounded-lg bg-secondary/50 border border-border flex items-center justify-center mb-4">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">Interactive Map</p>
-                  <p className="text-xs text-muted-foreground/60">Connect Mapbox for live view</p>
-                </div>
+              {/* Leaflet Map */}
+              <div className="aspect-video rounded-lg border border-border overflow-hidden mb-4">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${incident.location.lng - 0.01}%2C${incident.location.lat - 0.01}%2C${incident.location.lng + 0.01}%2C${incident.location.lat + 0.01}&layer=mapnik&marker=${incident.location.lat}%2C${incident.location.lng}`}
+                />
               </div>
 
               {/* Location Details */}
@@ -261,7 +263,11 @@ const IncidentDetailPanel: React.FC<IncidentDetailPanelProps> = ({ incident, onC
                     {incident.location.lat.toFixed(4)}, {incident.location.lng.toFixed(4)}
                   </p>
                 </div>
-                <Button variant="outline" className="w-full gap-2">
+                <Button 
+                  variant="outline" 
+                  className="w-full gap-2"
+                  onClick={() => window.open(`https://www.google.com/maps?q=${incident.location.lat},${incident.location.lng}`, '_blank')}
+                >
                   <ExternalLink className="w-4 h-4" />
                   Open in Google Maps
                 </Button>
