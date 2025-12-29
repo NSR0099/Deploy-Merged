@@ -16,26 +16,6 @@ services:
         sync: false # User must provide this in Render Dashboard
 
   # ----------------------------------------
-  # Sentinel Admin Frontend (Vite/React)
-  # ----------------------------------------
-  - type: web
-    name: sentinel-frontend
-    env: static
-    rootDir: backup_sentinel/sentinel-watch
-    plan: free
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: sentinel-backend
-          property: url
-          envVarKey: VITE_API_BASE_URL
-    # Note: Render service-to-service vars might not be fully available during static build time in some cases.
-    # If this fails, hardcode the backend URL in the Render Dashboard env vars.
-
-  # ----------------------------------------
   # Citizen Dashboard Backend (Node/Express)
   # ----------------------------------------
   - type: web
@@ -51,22 +31,6 @@ services:
       - key: MONGODB_URI
         sync: false # User must provide this in Render Dashboard
       - key: JWT_SECRET
-        generateValue: true
+        generateValue: true # Render will generate a securely random secret
 
-  # ----------------------------------------
-  # Citizen Frontend (Vite/React)
-  # ----------------------------------------
-  - type: web
-    name: citizen-frontend
-    env: static
-    rootDir: citizen_dashboard/citizen
-    plan: free
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_BASE_URL
-        fromService:
-          type: web
-          name: citizen-backend
-          property: url
-          envVarKey: VITE_API_BASE_URL
+# Note: The 'deploy' folder should be the root of your Git repository for this configuration to work.
